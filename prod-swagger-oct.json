@@ -1,0 +1,1166 @@
+{
+"openapi": "3.0.1",
+"info": {
+"title": "TALLENTECH API",
+"description": "Directional data processing API",
+"contact": {
+"name": "Timothy Allen",
+"email": "timothy.m.allen@tallentech.com.au"
+},
+"version": "v1"
+},
+"paths": {
+"/api/v1/identity/login": {
+"post": {
+"tags": [
+"Identity"
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UserLoginDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/UserLoginDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/UserLoginDto"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Success"
+}
+}
+}
+},
+"/api/v1/identity/refresh": {
+"post": {
+"tags": [
+"Identity"
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/RefreshTokenDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/RefreshTokenDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/RefreshTokenDto"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Success"
+}
+}
+}
+},
+"/api/v1/wells": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns all user wells",
+"description": "Sample response:\r\n\r\n    GET /Wells\r\n    [\r\n        {\r\n            \"wellId\": 1,            // int\r\n            \"wellName\": \"Well1\",    // string\r\n            \"status\": \"New\"         // \"New\", \"Active\", or \"Complete\"\r\n        },\r\n        {\r\n            \"wellId\": 2,\r\n            \"wellName\": \"Well2\",\r\n            \"status\": \"Active\"\r\n        },\r\n        {\r\n            \"wellId\": 3,\r\n            \"wellName\": \"Well3\",\r\n            \"status\": \"Complete\"\r\n        },\r\n    ]",
+"responses": {
+"200": {
+"description": "Returns all wells",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/WellDto"
+}
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+},
+"post": {
+"tags": [
+"Wells"
+],
+"summary": "Inserts new well",
+"description": "Sample request:\r\n\r\n    POST /Wells\r\n    {\r\n        \"wellName\": \"Example Well Name\"\r\n    }",
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/CreateWellDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/CreateWellDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/CreateWellDto"
+}
+}
+}
+},
+"responses": {
+"201": {
+"description": "Returns the successfully inserted well",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/WellDto"
+}
+}
+}
+},
+"400": {
+"description": "Bad request",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ErrorDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+},
+"/api/v1/wells/{wellId}": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns well details",
+"description": "Sample response:\r\n\r\n    GET /Wells/{wellId}\r\n    {\r\n        \"wellId\": 1,            // int\r\n        \"wellName\": \"Well1\",    // string\r\n        \"status\": \"New\"         // \"New\", \"Active\", or \"Complete\"\r\n    }",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Returns the well",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/WellDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"404": {
+"description": "Not Found",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+},
+"put": {
+"tags": [
+"Wells"
+],
+"summary": "Update well settings",
+"description": "Sample request:\r\n\r\n    PUT /Wells\r\n    {\r\n        \"wellName\": \"Example Well Name\"\r\n    }",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateWellDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateWellDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateWellDto"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Returns the successfully updated well",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/WellDto"
+}
+}
+}
+},
+"400": {
+"description": "Bad request",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ErrorDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"404": {
+"description": "Not Found",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+},
+"delete": {
+"tags": [
+"Wells"
+],
+"summary": "Delete well",
+"description": "",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"204": {
+"description": "Successfully deleted well"
+},
+"400": {
+"description": "Bad request",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ErrorDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+},
+"/api/v1/wells/{wellId}/MWDRawSvys": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns all MWD Raw Surveys for specific wellId",
+"description": "Sample response:\r\n\r\n    GET /Wells/{wellId}/MWDRawSvys\r\n    [\r\n        {\r\n            \"surveyId\": 1                       // int Unique\r\n            \"run\": 100,                         // Must be integer\r\n            \"type\": \"Definitive\",               // \"Definitive\" or \"Checkshot\", DEFAULT = \"Definitive\"\r\n            \"dt\": \"2020-08-30T20:59:59Z\",       // DateTime format ISO 8601 standard yyyy-mm-ddTHH:mm:ssZ\r\n            \"md\": 00000.00,                     // feet or meters defined by well settings\r\n            \"mwdInc\": 00.00,                    // degrees\r\n            \"mwdAz\": 000.00,                    // degrees\r\n            \"rawGx\": 0.00000,                   // g        g-force nominal 1.0000\r\n            \"rawGy\": 0.00000,                   // g        g-force nominal 1.0000\r\n            \"rawGz\": 0.00000,                   // g        g-force nominal 1.0000\r\n            \"rawBx\": 00000,                     // nT       nanoTesla\r\n            \"rawBy\": 00000,                     // nT       nanoTesla\r\n            \"rawBz\": 00000,                     // nT       nanoTesla\r\n            \"temp\": 00.00,                      // degrees  Celsius or Fahrenheit defined by well settings\r\n            \"pumpStatus\": \"OFF\",                // \"OFF\" or \"ON\", DEFAULT = \"OFF\"\r\n            \"status\": \"New\",                    // \"New\", \"Updated\", \"Processed\", \"Pending\", \"Error\", DEFAULT = \"New\"\r\n            \"note\": \"\"\r\n        },\r\n        {\r\n            \"surveyId\": 2                       \r\n            \"run\": 100,                         \r\n            \"type\": \"Definitive\",               \r\n            \"dt\": \"2020-08-30T21:59:59Z\",       \r\n            \"md\": 00000.00,                     \r\n            \"mwdInc\": 00.00,                    \r\n            \"mwdAz\": 000.00,                  \r\n            \"rawGx\": 0.00000,                  \r\n            \"rawGy\": 0.00000,                  \r\n            \"rawGz\": 0.00000,                  \r\n            \"rawBx\": 00000,                     \r\n            \"rawBy\": 00000,                   \r\n            \"rawBz\": 00000,                     \r\n            \"temp\": 00.00,                     \r\n            \"pumpStatus\": \"OFF\",                \r\n            \"status\": \"New\",                   \r\n            \"note\": \"\"\r\n        }\r\n    ]",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Returns the successfully inserted well",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/MWDRawSvyDto"
+}
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+},
+"post": {
+"tags": [
+"Wells"
+],
+"summary": "Inserts new survey",
+"description": "Sample request:\r\n\r\n    POST /Wells/{wellId}/MWDRawSvys\r\n    {\r\n        \"run\": 100,                         // Must be integer\r\n        \"type\": \"Definitive\",               // \"Definitive\" or \"Checkshot\", DEFAULT = \"Definitive\"\r\n        \"dt\": \"2020-08-10T13:28:57Z\",       // DateTime format ISO 8601 standard yyyy-mm-ddTHH:mm:ssZ\r\n        \"md\": 00000.00,                     // feet or meters defined by well settings\r\n        \"mwdInc\": 00.00,                    // degrees\r\n        \"mwdAz\": 000.00,                    // degrees\r\n        \"rawGx\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawGy\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawGz\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawBx\": 00000,                     // nT       nanoTesla\r\n        \"rawBy\": 00000,                     // nT       nanoTesla\r\n        \"rawBz\": 00000,                     // nT       nanoTesla\r\n        \"temp\": 00.00,                      // degrees  Celsius or Fahrenheit defined by well settings, DEFAULT 00.00\r\n        \"pumpStatus\": \"OFF\",                // \"OFF\" or \"ON\", DEFAULT = \"OFF\"\r\n        \"note\": \"\"                          // DEFAULT = \"\"\r\n    }\r\n    \r\n    type, temp, pumpStatus, and note are all optional, if not provided they will use DEFAULT value",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/CreateMWDRawSvyDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/CreateMWDRawSvyDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/CreateMWDRawSvyDto"
+}
+}
+}
+},
+"responses": {
+"201": {
+"description": "Returns the inserted survey",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/MWDRawSvyDto"
+}
+}
+}
+},
+"400": {
+"description": "Bad request",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ErrorDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+},
+"/api/v1/wells/{wellId}/MWDRawSvys/{surveyId}": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns MWD Raw Survey Details",
+"description": "",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"name": "surveyId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Returns the updated survey",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/MWDRawSvyDto"
+}
+}
+}
+},
+"400": {
+"description": "Bad request"
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"404": {
+"description": "Not Found",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+},
+"put": {
+"tags": [
+"Wells"
+],
+"summary": "Updates survey",
+"description": "Sample request:\r\n\r\n    PUT /Wells/{wellId}/MWDRawSvys\r\n    {\r\n        \"run\": 100,                         // Must be integer\r\n        \"type\": \"Definitive\",               // \"Definitive\" or \"Checkshot\"\r\n        \"dt\": \"2020-08-10T13:28:57Z\",       // DateTime format ISO 8601 standard yyyy-mm-ddTHH:mm:ssZ\r\n        \"md\": 00000.00,                     // feet or meters defined by well settings\r\n        \"mwdInc\": 00.00,                    // degrees\r\n        \"mwdAz\": 000.00,                    // degrees\r\n        \"rawGx\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawGy\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawGz\": 0.00000,                   // g        g-force nominal 1.0000\r\n        \"rawBx\": 00000,                     // nT       nanoTesla\r\n        \"rawBy\": 00000,                     // nT       nanoTesla\r\n        \"rawBz\": 00000,                     // nT       nanoTesla\r\n        \"temp\": 00.00,                      // degrees  Celsius or Fahrenheit defined by well settings\r\n        \"pumpStatus\": \"OFF\",                // \"OFF\" or \"ON\"\r\n        \"note\": \"\"                          // \r\n    }",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"name": "surveyId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"requestBody": {
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateMWDRawSvyDto"
+}
+},
+"text/json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateMWDRawSvyDto"
+}
+},
+"application/*+json": {
+"schema": {
+"$ref": "#/components/schemas/UpdateMWDRawSvyDto"
+}
+}
+}
+},
+"responses": {
+"200": {
+"description": "Returns the updated survey",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/MWDRawSvyDto"
+}
+}
+}
+},
+"400": {
+"description": "Bad request",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ErrorDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"404": {
+"description": "Not Found",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+},
+"/api/v1/wells/{wellId}/DefSvys": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns all Definitive Processed Surveys",
+"description": "Sample response:\r\n\r\n    GET /Wells/{wellId}/DefSvys\r\n    [\r\n        {\r\n            \"surveyId\": 00000,                  // Will match the surveyId for MWDRaw otherwise be 0 for all other survey stations\r\n            \"run\": 100,                         // Must be integer\r\n            \"dt\": \"2020-08-30T20:59:59Z\",       // DateTime format ISO 8601 standard yyyy-mm-ddTHH:mm:ssZ\r\n            \"md\": 00000.00,                     // feet or meters defined by well settings\r\n            \"Inc\": 00.00,                       // degrees\r\n            \"Az\": 000.00,                       // degrees\r\n            \"gtqc\": 0.00000,                    // g        g-force nominal 1.0000\r\n            \"btqc\": 00000,                      // nT       nanoTesla\r\n            \"dipqc\": 00.00,                     // degrees  \r\n            \"fac\": \"PASS\",                      // string   \"PASS\" or \"FAIL\"\r\n            \"ipm\": \"MWD\",                       // string   \r\n            \"company\": \"BHI\",                   // string   directional service company that provided survey tool\r\n            \"note\": \"\"\r\n        },\r\n        {\r\n            \"surveyId\": 00000,  \r\n            \"run\": 100,                        \r\n            \"dt\": \"2020-08-30T20:59:59Z\",      \r\n            \"md\": 00000.00,                    \r\n            \"Inc\": 00.00,                       \r\n            \"Az\": 000.00,                       \r\n            \"gtqc\": 0.00000,                   \r\n            \"btqc\": 00000,                      \r\n            \"dipqc\": 00.00,                    \r\n            \"fac\": \"PASS\",                     \r\n            \"ipm\": \"MWD\",                       \r\n            \"company\": \"BHI\",                   \r\n            \"note\": \"\"\r\n        }\r\n    ]",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Returns all definitive surveys",
+"content": {
+"application/json": {
+"schema": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/DefSvyDto"
+}
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+},
+"/api/v1/wells/{wellId}/DefSvys/{surveyId}": {
+"get": {
+"tags": [
+"Wells"
+],
+"summary": "Returns Defintive Survey Details",
+"description": "",
+"parameters": [
+{
+"name": "wellId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+},
+{
+"name": "surveyId",
+"in": "path",
+"required": true,
+"schema": {
+"type": "integer",
+"format": "int32"
+}
+}
+],
+"responses": {
+"200": {
+"description": "Returns the updated survey",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/DefSvyDto"
+}
+}
+}
+},
+"401": {
+"description": "Unauthorized",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"404": {
+"description": "Not Found",
+"content": {
+"application/json": {
+"schema": {
+"$ref": "#/components/schemas/ProblemDetails"
+}
+}
+}
+},
+"500": {
+"description": "Internal Server error"
+}
+}
+}
+}
+},
+"components": {
+"schemas": {
+"UserLoginDto": {
+"type": "object",
+"properties": {
+"email": {
+"type": "string",
+"nullable": true
+},
+"password": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"RefreshTokenDto": {
+"type": "object",
+"properties": {
+"access_token": {
+"type": "string",
+"nullable": true
+},
+"refresh_token": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"WellDto": {
+"type": "object",
+"properties": {
+"wellId": {
+"type": "integer",
+"format": "int32"
+},
+"wellName": {
+"type": "string",
+"nullable": true
+},
+"status": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"ProblemDetails": {
+"type": "object",
+"properties": {
+"type": {
+"type": "string",
+"nullable": true
+},
+"title": {
+"type": "string",
+"nullable": true
+},
+"status": {
+"type": "integer",
+"format": "int32",
+"nullable": true
+},
+"detail": {
+"type": "string",
+"nullable": true
+},
+"instance": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": {}
+},
+"CreateWellDto": {
+"required": [
+"wellName"
+],
+"type": "object",
+"properties": {
+"wellName": {
+"type": "string"
+}
+},
+"additionalProperties": false
+},
+"ErrorModel": {
+"type": "object",
+"properties": {
+"fieldName": {
+"type": "string",
+"nullable": true
+},
+"message": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"ErrorDto": {
+"type": "object",
+"properties": {
+"errors": {
+"type": "array",
+"items": {
+"$ref": "#/components/schemas/ErrorModel"
+},
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"UpdateWellDto": {
+"required": [
+"wellName"
+],
+"type": "object",
+"properties": {
+"wellName": {
+"type": "string"
+}
+},
+"additionalProperties": false
+},
+"MWDRawSvyDto": {
+"type": "object",
+"properties": {
+"surveyId": {
+"type": "integer",
+"format": "int32"
+},
+"run": {
+"type": "integer",
+"format": "int32"
+},
+"type": {
+"type": "string",
+"nullable": true
+},
+"dt": {
+"type": "string",
+"format": "date-time"
+},
+"md": {
+"type": "number",
+"format": "double"
+},
+"mwdInc": {
+"type": "number",
+"format": "double"
+},
+"mwdAz": {
+"type": "number",
+"format": "double"
+},
+"rawGx": {
+"type": "number",
+"format": "double"
+},
+"rawGy": {
+"type": "number",
+"format": "double"
+},
+"rawGz": {
+"type": "number",
+"format": "double"
+},
+"rawBx": {
+"type": "number",
+"format": "double"
+},
+"rawBy": {
+"type": "number",
+"format": "double"
+},
+"rawBz": {
+"type": "number",
+"format": "double"
+},
+"temp": {
+"type": "number",
+"format": "double"
+},
+"pumpStatus": {
+"type": "string",
+"nullable": true
+},
+"status": {
+"type": "string",
+"nullable": true
+},
+"note": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"CreateMWDRawSvyDto": {
+"required": [
+"dt",
+"md",
+"mwdAz",
+"mwdInc",
+"rawBx",
+"rawBy",
+"rawBz",
+"rawGx",
+"rawGy",
+"rawGz"
+],
+"type": "object",
+"properties": {
+"run": {
+"type": "integer",
+"format": "int32"
+},
+"type": {
+"type": "string",
+"default": "Definitive",
+"nullable": true
+},
+"dt": {
+"type": "string",
+"format": "date-time"
+},
+"md": {
+"type": "number",
+"format": "double"
+},
+"mwdInc": {
+"type": "number",
+"format": "double"
+},
+"mwdAz": {
+"type": "number",
+"format": "double"
+},
+"rawGx": {
+"type": "number",
+"format": "double"
+},
+"rawGy": {
+"type": "number",
+"format": "double"
+},
+"rawGz": {
+"type": "number",
+"format": "double"
+},
+"rawBx": {
+"type": "number",
+"format": "double"
+},
+"rawBy": {
+"type": "number",
+"format": "double"
+},
+"rawBz": {
+"type": "number",
+"format": "double"
+},
+"temp": {
+"type": "number",
+"format": "double"
+},
+"pumpStatus": {
+"type": "string",
+"default": "OFF",
+"nullable": true
+},
+"note": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"UpdateMWDRawSvyDto": {
+"type": "object",
+"properties": {
+"run": {
+"type": "integer",
+"format": "int32"
+},
+"type": {
+"type": "string",
+"nullable": true
+},
+"dt": {
+"type": "string",
+"format": "date-time"
+},
+"md": {
+"type": "number",
+"format": "double"
+},
+"mwdInc": {
+"type": "number",
+"format": "double"
+},
+"mwdAz": {
+"type": "number",
+"format": "double"
+},
+"rawGx": {
+"type": "number",
+"format": "double"
+},
+"rawGy": {
+"type": "number",
+"format": "double"
+},
+"rawGz": {
+"type": "number",
+"format": "double"
+},
+"rawBx": {
+"type": "number",
+"format": "double"
+},
+"rawBy": {
+"type": "number",
+"format": "double"
+},
+"rawBz": {
+"type": "number",
+"format": "double"
+},
+"temp": {
+"type": "number",
+"format": "double"
+},
+"pumpStatus": {
+"type": "string",
+"nullable": true
+},
+"note": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+},
+"DefSvyDto": {
+"type": "object",
+"properties": {
+"surveyId": {
+"type": "integer",
+"format": "int32"
+},
+"run": {
+"type": "integer",
+"format": "int32"
+},
+"dt": {
+"type": "string",
+"format": "date-time"
+},
+"md": {
+"type": "number",
+"format": "double"
+},
+"inc": {
+"type": "number",
+"format": "double"
+},
+"az": {
+"type": "number",
+"format": "double"
+},
+"gtQC": {
+"type": "number",
+"format": "double"
+},
+"btQC": {
+"type": "number",
+"format": "double"
+},
+"dipQC": {
+"type": "number",
+"format": "double"
+},
+"fac": {
+"type": "string",
+"nullable": true
+},
+"ipm": {
+"type": "string",
+"nullable": true
+},
+"company": {
+"type": "string",
+"nullable": true
+},
+"note": {
+"type": "string",
+"nullable": true
+}
+},
+"additionalProperties": false
+}
+},
+"securitySchemes": {
+"Bearer": {
+"type": "apiKey",
+"description": "Please insert JWT with Bearer into field",
+"name": "Authorization",
+"in": "header"
+}
+}
+},
+"security": [
+{
+"Bearer": []
+}
+]
+}
